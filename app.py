@@ -15,7 +15,7 @@ Hola, este es un ejemplo de documento en LaTeX renderizado con latex.js.
     height=300,
 )
 
-# HTML para renderizar el código con latex.js
+# HTML para renderizar
 html_template = f"""
 <!DOCTYPE html>
 <html>
@@ -23,16 +23,24 @@ html_template = f"""
     <script src="https://cdn.jsdelivr.net/npm/latex.js@0.12.0/dist/latex.min.js"></script>
 </head>
 <body>
-    <div id="output"></div>
+    <div id="output">
+        <h1>Renderizado de LaTeX</h1>
+        <p>Esto es un texto fijo para verificar el funcionamiento del iframe.</p>
+    </div>
     <script>
         const latexCode = `{latex_code}`;
-        const htmlOutput = latexjs.parse(latexCode).htmlDocument();
-        document.getElementById("output").innerHTML = htmlOutput.body.innerHTML;
+        try {{
+            const htmlOutput = latexjs.parse(latexCode).htmlDocument();
+            document.getElementById("output").innerHTML = htmlOutput.body.innerHTML;
+        }} catch (e) {{
+            document.getElementById("output").innerHTML += "<p>Error al procesar el LaTeX: " + e.message + "</p>";
+        }}
     </script>
 </body>
 </html>
 """
 
-# Mostrar la vista previa renderizada como un iframe
+# Mostrar el iframe con el HTML
 st.subheader("Vista previa renderizada:")
 st.components.v1.html(html_template, height=500, scrolling=True)
+
