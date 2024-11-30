@@ -2,20 +2,21 @@ import streamlit as st
 
 st.title("Editor LaTeX en Streamlit usando MathJax")
 
-# Área de texto para escribir el código LaTeX
-st.subheader("Escribe tu código LaTeX aquí:")
+# Instrucciones para el usuario
+st.write(
+    "Este editor utiliza MathJax para renderizar LaTeX. Por favor, ingresa fragmentos de código LaTeX sin usar entornos de documento completos."
+)
+
+# Área de texto para que el usuario escriba LaTeX
 latex_code = st.text_area(
     "Código LaTeX",
     value=r"""
-\documentclass{article}
-\begin{document}
-Hola, este es un ejemplo de documento en \LaTeX renderizado con MathJax.
-\end{document}
+\int_{0}^{\infty} e^{-x^2} dx = \frac{\sqrt{\pi}}{2}
 """,
-    height=300,
+    height=200,
 )
 
-# HTML con MathJax para renderizar el contenido LaTeX
+# HTML con MathJax para renderizar
 mathjax_html = f"""
 <!DOCTYPE html>
 <html>
@@ -26,8 +27,7 @@ mathjax_html = f"""
 </head>
 <body>
     <h1>Vista previa renderizada</h1>
-    <p>A continuación se muestra el contenido renderizado desde LaTeX:</p>
-    <div id="output">
+    <div>
         \\[
         {latex_code}
         \\]
@@ -36,5 +36,5 @@ mathjax_html = f"""
 </html>
 """
 
-# Mostrar el HTML con MathJax en Streamlit
-st.components.v1.html(mathjax_html, height=500, scrolling=True)
+# Mostrar el contenido renderizado en la app de Streamlit
+st.components.v1.html(mathjax_html, height=300, scrolling=True)
